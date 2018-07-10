@@ -1,0 +1,24 @@
+{
+  "name": "node-hackernews-api",
+  "version": "1.0.0",
+  "description": "hacker news api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": "git@github.com:ftechiesnitin/node-hackernews-api.git",
+  "author": "Nitin Dolli <nitin.dolli@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.6.1",
+    "compression": "^1.7.2",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "farmhash": "^2.1.0",
+    "lodash": "^4.17.10",
+    "mongodb": "^3.1.1",
+    "pino": "^4.17.3",
+    "request": "^2.87.0"
+  }
+}
