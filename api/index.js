@@ -16,6 +16,7 @@ api.use((req, res, next) => {
   next();
 });
 
+api.get('/searchnews', hk.searchText);
 api.get('/hackerNews/topstories', hk.topStories);
 
 module.exports = api;

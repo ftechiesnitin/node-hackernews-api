@@ -4,6 +4,11 @@ const os = require('os');
 const net = require('net');
 const farmhash = require('farmhash');
 
+// for intialising mongo db connection
+const mongo = require('./db/mongodbDao');
+
+// job
+const job = require('./job/addTopStories');
 //initialize API
 const api = require('./api')
 // custom modules
@@ -57,27 +62,42 @@ if (cluster.isMaster) {
   });
 
 } else {
+	mongo.getDBConnection((err, conn) => {
+		if(err) {
+			throw err;
+			process.exit(1);
+		}
 
-	// Note we don't use a port here because the master listens on it for us.
- 	let app = new express();
+		if(conn) job.addStories();
 
-	// Here you might use middleware, attach routes, etc.
-  app.use('/api', api);
-	// Don't expose our internal server to the outside.
-	let server = app.listen(0, 'localhost');
+		// Note we don't use a port here because the master listens on it for us.
+		let app = new express();
 
- 	 // Listen to messages sent from the master. Ignore everything else.
-	 process.on('message', function(message, connection) {
-		 if (message !== 'sticky-session:connection') {
-			 return;
-		 }
+		// Here you might use middleware, attach routes, etc.
+		app.use('/api', api);
+		// Don't expose our internal server to the outside.
+		let server = app.listen(0, 'localhost');
 
-		 // Emulate a connection event on the server by emitting the
-		 // event with the connection the master sent us.
-		 server.emit('connection', connection);
+		 // Tell Socket.IO to use the redis adapter. By default, the redis
+		 // server is assumed to be on localhost:6379. You don't have to
+		 // specify them explicitly unless you want to change them.
+		 // io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 
-		 connection.resume();
-	 });
+		 // Here you might use Socket.IO middleware for authorization etc.
 
- 	 console.log('Process: ', process.pid);
+		 // Listen to messages sent from the master. Ignore everything else.
+		 process.on('message', function(message, connection) {
+			 if (message !== 'sticky-session:connection') {
+				 return;
+			 }
+
+			 // Emulate a connection event on the server by emitting the
+			 // event with the connection the master sent us.
+			 server.emit('connection', connection);
+
+			 connection.resume();
+		 });
+
+		 console.log('Process: ', process.pid);
+	});
 }
