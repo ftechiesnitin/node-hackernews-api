@@ -15,5 +15,4 @@ config.MONGO_USER_NAME = _.get(process, 'env.MONGO_USER_NAME', '');
 config.MONGO_USER_PASSWORD = _.get(process, 'env.MONGO_USER_PASSWD', '');
 config.MONGO_DB_URL = _.get(process, 'env.MONGO_DB_URL', '');
 config.MONGO_DB_NAME = _.get(process, 'env.MONGO_DB_NAME', '');
-// config.MASTER_MONGO_CONNECTION = 'mongodb://' + config.MONGO_USER_NAME  + ':' + config.MONGO_USER_PASSWORD + '@' + config.MONGO_DB_URL + '/' + config.MONGO_USER_NAME + '?retryWrites=true';
-config.MASTER_MONGO_CONNECTION = 'mongodb://' + config.MONGO_USER_NAME  + '@' + config.MONGO_DB_URL + '/' + config.MONGO_DB_NAME;
+config.MASTER_MONGO_CONNECTION = 'mongodb://' + config.MONGO_USER_NAME  + ':' + config.MONGO_USER_PASSWORD + '@' + config.MONGO_DB_URL + '/' + config.MONGO_USER_NAME + '?retryWrites=true';

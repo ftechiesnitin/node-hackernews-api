@@ -14,7 +14,7 @@ const api = require('./api')
 // custom modules
 const cfg = require('./config');
 
-const NUM_OF_PROCESSES = 1;
+const NUM_OF_PROCESSES = os.cpus().length;
 
 if (cluster.isMaster) {
   // This stores our workers. We need to keep them to be able to reference
@@ -77,13 +77,6 @@ if (cluster.isMaster) {
 		app.use('/api', api);
 		// Don't expose our internal server to the outside.
 		let server = app.listen(0, 'localhost');
-
-		 // Tell Socket.IO to use the redis adapter. By default, the redis
-		 // server is assumed to be on localhost:6379. You don't have to
-		 // specify them explicitly unless you want to change them.
-		 // io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
-
-		 // Here you might use Socket.IO middleware for authorization etc.
 
 		 // Listen to messages sent from the master. Ignore everything else.
 		 process.on('message', function(message, connection) {

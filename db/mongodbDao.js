@@ -44,17 +44,6 @@ class MongodbDao {
         });
     }
 
-    findOne(collection, query, callback, options) {
-        if (!options) options = {};
-        let db = this.conn.db('' + DBName + '');
-        db.collection(collection).findOne(query, options, (error, document) => {
-            if(error) this.logError(error, 'Mongo FindOne query Error: ', query, options);
-            if(callback) {
-                callback(error, document)
-            }
-        });
-    }
-
     updateOne(collection, query, data, callback, options) {
         if (!options) options = {};
         let db = this.conn.db('' + DBName + '');
@@ -73,10 +62,10 @@ class MongodbDao {
       if (!query) return callback('query-required');
 
       let db = this.conn.db('' + DBName + '');
-console.log('collection', collection, query);
+
       db.collection(collection).find(query, options)
-        // .project({ score: { $meta: "textScore" } })
-        // .sort({score: {$meta: "textScore"}})
+        .project({ score: { $meta: "textScore" } })
+        .sort({score: {$meta: "textScore"}})
         .toArray((error, documents) => {
           if(error) this.logError(error, 'Mongo TextSearch query Error: ', query, options);
           if(callback) {
