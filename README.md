@@ -18,7 +18,7 @@
 
 ```
 
-4. `This app uses Mongo DB for search and store the top stories Mongo DB running locally or remotely. Add all the necessary configs in env for the mongodb`
+4. `This app uses Mongo DB for search and store the top stories, add Mongo DB credentials running locally or remotely. Add all the necessary configs in env for the mongodb`
 
 5. Run `npm start`
 6. `You can access http://HOST:PORT/api/searchnews?query=Autonomy`
